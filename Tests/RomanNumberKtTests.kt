@@ -5,7 +5,7 @@ import org.junit.jupiter.api.Assertions.*
 
 internal class RomanNumberKtTests {
 
-    val roman:RomanNumber = RomanNumber()
+    val roman = RomanNumber()
 
     @Test
     fun isRomanNumber() {
@@ -20,6 +20,9 @@ internal class RomanNumberKtTests {
         assertTrue(roman.isRomanNumber(string="XLIII"))
         assertTrue(roman.isRomanNumber(string="XXXVIII"))
         assertTrue(roman.isRomanNumber(string="C"))
+        assertTrue(roman.isRomanNumber(string="LVI"))
+        assertTrue(roman.isRomanNumber(string="XCIV"))
+        assertTrue(roman.isRomanNumber(string="LXXVII"))
 
 
         assertFalse(roman.isRomanNumber(string=""))
@@ -28,11 +31,15 @@ internal class RomanNumberKtTests {
         assertFalse(roman.isRomanNumber(string="X1C"))
         assertFalse(roman.isRomanNumber(string="XC!"))
         assertFalse(roman.isRomanNumber(string="IIII"))
-        assertFalse(roman.isRomanNumber(string=""))
+        assertFalse(roman.isRomanNumber(string="XCIXV"))
+        assertFalse(roman.isRomanNumber(string="VV"))
         assertFalse(roman.isRomanNumber(string="IXIX"))
         assertFalse(roman.isRomanNumber(string="IXX"))
         assertFalse(roman.isRomanNumber(string="XCIXC"))
         assertFalse(roman.isRomanNumber(string="IIIV"))
+        assertFalse(roman.isRomanNumber(string="IIX"))
+        assertFalse(roman.isRomanNumber(string="VX"))
+        assertFalse(roman.isRomanNumber(string="XXXXXIIIIV"))
 
 
     }
