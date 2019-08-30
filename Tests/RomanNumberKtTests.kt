@@ -126,8 +126,24 @@ internal class RomanNumberKtTests {
         assertFalse(roman.checkCorrectSequence(string="XXXC"))
         assertFalse(roman.checkCorrectSequence(string="XCX"))
         assertFalse(roman.checkCorrectSequence(string="IXX"))
+        assertFalse(roman.checkCorrectSequence(string="XCIXV"))
 
     }
+
+
+    @Test
+    fun checkBigger(){
+
+        val map = mutableMapOf<String,Boolean>("X" to false, "I" to false)
+        val str = "XCIXV"
+
+        assertTrue(roman.checkBigger(index=1,str=str,count=0,map=map))
+        assertTrue(roman.checkBigger(index=2,str=str,count=0,map=map))
+
+        assertFalse(roman.checkBigger(index=3,str=str,count=0,map=map))
+
+    }
+
 
 
 }

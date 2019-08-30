@@ -73,9 +73,8 @@ class RomanNumber{
         //set max value to be the first literal
         val max = valueOf(string[0])
         var count=1
-        var subtractX = false
-        var subtractI = false
 
+        val subsMap = mutableMapOf<String,Boolean>("X" to false, "I" to false)
 
         for(i in 1 until string.length step 1){
 
@@ -91,33 +90,8 @@ class RomanNumber{
             //if not
             else {
 
-                //if current if bigger than prev
-                if(valueOf(string[i]) >valueOf(string[i-1])) {
-
-                    //subtracting X
-                    if(string[i-1] == 'X'){
-                        subtractX = true
-                     //subtracting I
-                    }else if(string[i-1] == 'I'){
-                        subtractI = true
-                    }
-
-                    //if we subtract something other than X or I
-                    //or if there is a sequence of more than 2 smaller values before the bigger one
-                    //or if we subtract I but not the last element
-                    if ((!subtractI && !subtractX) ||
-                        ((string[i-1] == 'X' || string[i-1] == 'I') && count>1) ||
-                         (subtractI && i!=string.length-1))
-                        return false
-
-
-                //if current is smaller than prev
-                }else{
-
-                    if(i>1 && string[i] == string[i-2]){
-                        return false
-                    }
-                }
+                if(!checkBigger(index=i, str=string, count=count, map=subsMap)) return false
+                if(!checkSmaller(index=i, str=string)) return false
                 //restart count
                 count=1
             }
@@ -129,4 +103,61 @@ class RomanNumber{
 
     //get numeric value of literal c
     fun valueOf(c:Char) = literalValues.getValue(c)
+
+
+    /*
+    check literals positions when current is bigger then previous
+     */
+    fun checkBigger(index: Int, str: String, count: Int, map: MutableMap<String,Boolean>) : Boolean{
+
+        //if current is bigger than prev
+        if(valueOf(str[index]) >valueOf(str[index-1])) {
+
+
+            //cannot subtract X or I twice
+            if((str[index-1] == 'X' && map.getValue("X")) || (str[index-1] == 'I' && map.getValue("I")) ){
+                return false
+            }
+
+            //mark which literal is being subtracted
+           if(str[index-1] == 'X' && !map.getValue("X")){
+               map["X"] = true
+           }else if(str[index-1] == 'I' && !map.getValue("I")){
+               map["I"] = true
+           }else{
+               return false
+           }
+
+            //cannot have more than one smaller value before bigger value
+            if((str[index-1] == 'X' || str[index-1] == 'I') && count >1){
+                return false
+            }
+
+            //if I is being subtracted it must be last subtraction
+            if(str[index-1] == 'I' && index != str.length-1){
+                return false
+            }
+
+        }
+
+        return true
+
+    }
+
+    /*
+   check literals positions when current is smaller then previous
+    */
+    fun checkSmaller(index: Int, str: String) : Boolean{
+
+        //if current is smaller than prev
+        if(valueOf(str[index]) < valueOf(str[index-1])) {
+
+            //cannot have 2 same literal near current
+            if(index>1 && str[index] == str[index-2]){
+                return false
+            }
+        }
+
+        return true
+    }
 }
